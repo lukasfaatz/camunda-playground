@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_14cvgut" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:collaboration id="Collaboration_1xnyo9o">
+    <bpmn:participant id="Participant_1xe2jj6" name="Antragsprozess SHUK" processRef="process_shuk" />
+  </bpmn:collaboration>
+  <bpmn:process id="process_shuk" name="shuk" isExecutable="true" camunda:versionTag="1.0.0">
+    <bpmn:serviceTask id="Task_dokumente" name="Dokumente um VSNR anreichern" camunda:delegateExpression="${dokumente}">
+      <bpmn:incoming>SequenceFlow_1073bue</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_14mu2qz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_vsnr" name="VSNR" camunda:delegateExpression="${vsnr}">
+      <bpmn:incoming>SequenceFlow_1tocxto</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0jo3xta</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_kommentare" name="Kommenare um VSNR anreichern" camunda:delegateExpression="${kommentare}">
+      <bpmn:incoming>SequenceFlow_11nlhhc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1073bue</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_nipo" name="NIPO versorgen" camunda:delegateExpression="${nipo}">
+      <bpmn:incoming>SequenceFlow_0jo3xta</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_11nlhhc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="IntermediateThrowEvent_0gbf05x">
+      <bpmn:incoming>SequenceFlow_0nj1us5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Task_19nlju4" name="Antragsdaten erfassen">
+      <bpmn:incoming>SequenceFlow_14mu2qz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0nj1us5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="StartEvent_1ym9aca">
+      <bpmn:outgoing>SequenceFlow_1tocxto</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_14mu2qz" sourceRef="Task_dokumente" targetRef="Task_19nlju4" />
+    <bpmn:sequenceFlow id="SequenceFlow_1073bue" sourceRef="Task_kommentare" targetRef="Task_dokumente" />
+    <bpmn:sequenceFlow id="SequenceFlow_11nlhhc" sourceRef="Task_nipo" targetRef="Task_kommentare" />
+    <bpmn:sequenceFlow id="SequenceFlow_0jo3xta" sourceRef="Task_vsnr" targetRef="Task_nipo" />
+    <bpmn:sequenceFlow id="SequenceFlow_0nj1us5" sourceRef="Task_19nlju4" targetRef="IntermediateThrowEvent_0gbf05x" />
+    <bpmn:sequenceFlow id="SequenceFlow_1tocxto" sourceRef="StartEvent_1ym9aca" targetRef="Task_vsnr" />
+    <bpmn:textAnnotation id="TextAnnotation_00dk61p">
+      <bpmn:text>Antrag aus Input Management</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1nvzxqb" sourceRef="StartEvent_1ym9aca" targetRef="TextAnnotation_00dk61p" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1xnyo9o">
+      <bpmndi:BPMNEdge id="Association_1nvzxqb_di" bpmnElement="Association_1nvzxqb">
+        <di:waypoint x="262" y="286" />
+        <di:waypoint x="300" y="235" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1xe2jj6_di" bpmnElement="Participant_1xe2jj6" isHorizontal="true">
+        <dc:Bounds x="180" y="90" width="1780" height="320" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_05869ww_di" bpmnElement="Task_dokumente">
+        <dc:Bounds x="1210" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1fm12s6_di" bpmnElement="Task_kommentare">
+        <dc:Bounds x="932" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0d6psmn_di" bpmnElement="Task_nipo">
+        <dc:Bounds x="654" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1pzorks_di" bpmnElement="IntermediateThrowEvent_0gbf05x">
+        <dc:Bounds x="1823" y="282" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_03m5jaa_di" bpmnElement="Task_19nlju4">
+        <dc:Bounds x="1481" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0gbpkjl_di" bpmnElement="Task_vsnr">
+        <dc:Bounds x="381" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1ym9aca_di" bpmnElement="StartEvent_1ym9aca">
+        <dc:Bounds x="233" y="282" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_14mu2qz_di" bpmnElement="SequenceFlow_14mu2qz">
+        <di:waypoint x="1310" y="300" />
+        <di:waypoint x="1481" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1073bue_di" bpmnElement="SequenceFlow_1073bue">
+        <di:waypoint x="1032" y="300" />
+        <di:waypoint x="1210" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_11nlhhc_di" bpmnElement="SequenceFlow_11nlhhc">
+        <di:waypoint x="754" y="300" />
+        <di:waypoint x="932" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0jo3xta_di" bpmnElement="SequenceFlow_0jo3xta">
+        <di:waypoint x="481" y="300" />
+        <di:waypoint x="654" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0nj1us5_di" bpmnElement="SequenceFlow_0nj1us5">
+        <di:waypoint x="1581" y="300" />
+        <di:waypoint x="1823" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1tocxto_di" bpmnElement="SequenceFlow_1tocxto">
+        <di:waypoint x="269" y="300" />
+        <di:waypoint x="381" y="300" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
